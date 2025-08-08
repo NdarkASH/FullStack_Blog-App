@@ -1,12 +1,18 @@
 package com.darknash.blog.service.impl;
 
+import com.darknash.blog.constant.PostStatus;
+import com.darknash.blog.model.Category;
 import com.darknash.blog.model.Post;
+import com.darknash.blog.model.Tag;
+import com.darknash.blog.model.User;
 import com.darknash.blog.repository.PostRepository;
 import com.darknash.blog.service.CategoryService;
 import com.darknash.blog.service.PostService;
 import com.darknash.blog.service.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,17 +29,45 @@ public class PostServiceImplement implements PostService {
 
     @Override
     public Post getPost(UUID id) {
-        return null;
+        return postRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Post does not exist" + id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Post> getAllPosts(UUID categoryId, UUID tagId) {
-        return List.of();
+            if (categoryId != null && tagId != null) {
+                Category category = categoryService.getCategoryById(categoryId);
+                Tag tag = tagService.getTagById(tagId);
+                return postRepository.findAllByStatusAndCategoryAndTagsContaining(
+                        PostStatus.PUBLISHED, category, tag
+                );
+            }
+            if (categoryId != null) {
+                Category category = categoryService.getCategoryById(categoryId);
+                return postRepository.findAllByStatusAndCategory(
+                        PostStatus.PUBLISHED,
+                        category
+                );
+            }
+
+            if (tagId != null) {
+                Tag tag = tagService.getTagById(tagId);
+                return postRepository.findAllByStatusAndTagsContaining(
+                        PostStatus.PUBLISHED,
+                        tag
+                );
+            }
+            return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+
     }
 
     @Override
-    public List<Post> getDraftPosts(UUID categoryId, UUID tagId) {
-        return List.of();
+    public List<Post> getDraftPosts(User user) {
+        return postRepository.findAllByAuthorAndStatus(
+                user,
+                PostStatus.DRAFT
+        );
     }
 
     @Override
