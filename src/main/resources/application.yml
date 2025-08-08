@@ -10,7 +10,9 @@ spring:
       ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
-
   application:
     name: blog-apps
+
+jwt:
+  secret: your-256-bit-secret-key-here-make-it-at-least-32-bytes-long
 
