@@ -1,6 +1,8 @@
 package com.darknash.blog.service.impl;
 
 import com.darknash.blog.constant.PostStatus;
+import com.darknash.blog.dto.CreatePostRequest;
+import com.darknash.blog.dto.UpdatePostRequest;
 import com.darknash.blog.model.Category;
 import com.darknash.blog.model.Post;
 import com.darknash.blog.model.Tag;
@@ -14,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -71,18 +75,29 @@ public class PostServiceImplement implements PostService {
     }
 
     @Override
-    public Post createPost(Post post) {
-        return null;
+    public Post createPost(User user, CreatePostRequest request) {
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setStatus(request.getStatus());
+        post.setCategory(categoryService.getCategoryById(request.getCategoryId()));
+        post.setReadingTime(calculateReadingTIme(request.getContent()));
+        Set<UUID> tagsIds = request.getTags();
+        List<Tag> tags = tagService.getTagsByIds(tagsIds);
+        post.setTags(new HashSet<>(tags));
+        return postRepository.save(post);
     }
 
     @Override
-    public Post updatePost(Post post) {
+    public Post updatePost(UUID uuid, UpdatePostRequest request) {
         return null;
     }
 
     @Override
     public void deletePost(UUID id) {
-
+        Post post = getPost(id);
+        postRepository.delete(post);
     }
 
 

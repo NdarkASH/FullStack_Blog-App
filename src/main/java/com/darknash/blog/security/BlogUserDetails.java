@@ -1,4 +1,4 @@
-package com.darknash.blog.config;
+package com.darknash.blog.security;
 
 import com.darknash.blog.model.User;
 import lombok.Getter;
@@ -14,7 +14,9 @@ import java.util.UUID;
 @Getter
 @RequiredArgsConstructor
 public class BlogUserDetails implements UserDetails {
+
     private final User user;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,4 +56,5 @@ public class BlogUserDetails implements UserDetails {
     public UUID getId(){
         return user.getId();
     }
+
 }

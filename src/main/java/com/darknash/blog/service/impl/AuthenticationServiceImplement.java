@@ -1,6 +1,7 @@
 package com.darknash.blog.service.impl;
 
 import com.darknash.blog.service.AuthenticationService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -27,7 +28,7 @@ public class AuthenticationServiceImplement implements AuthenticationService {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    private final Long jwtExpiryMs = 86400000l;
+    private final Long jwtExpiryMs = 86400000L;
 
 
     @Override
@@ -52,7 +53,17 @@ public class AuthenticationServiceImplement implements AuthenticationService {
 
     @Override
     public UserDetails validateToken(String token) {
-        return null;
+       String username = extractUserName(token);
+       return userDetailsService.loadUserByUsername(username);
+    }
+
+
+    private String extractUserName(String token){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build().parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
     private Key getSigningKey() {
