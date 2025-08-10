@@ -6,9 +6,11 @@ import com.darknash.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,25 @@ public class TagsServiceImplement implements TagService {
     }
 
     @Override
-    public List<Tag> createTags(Set<String> tagName) {
+    public List<Tag> createTags(Set<String> request) {
+        List<Tag> existingTags = tagRepository.findByNameIn(request);
+
+        Set<String> existingTagNames = existingTags.stream()
+                .map(Tag::getName)
+                .collect(Collectors.toSet());
+
+        List<Tag> newTags = request.stream()
+                .filter(name-> !existingTagNames.contains(name))
+                .map(
+                        name-> {
+                            Tag tag = new Tag();
+                            tag.setName(name);
+                            tag.setPosts(HashSet.newHashSet());
+                            return tag;
+
+                        }).toList();
+
+
         return List.of();
     }
 
@@ -31,12 +51,12 @@ public class TagsServiceImplement implements TagService {
     }
 
     @Override
-    public Tag getTagById(UUID tagId) {
+    public Tag getTagById(UUID requestId) {
         return null;
     }
 
     @Override
-    public List<Tag> getTagsByIds(Set<UUID> tagName) {
+    public List<Tag> getTagsByIds(Set<UUID> requestIds) {
         return List.of();
     }
 }
