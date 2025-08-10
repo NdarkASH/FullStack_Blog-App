@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -90,8 +91,32 @@ public class PostServiceImplement implements PostService {
     }
 
     @Override
+    @Transactional
     public Post updatePost(UUID uuid, UpdatePostRequest request) {
-        return null;
+        Post existingPost = getPost(uuid);
+
+        existingPost.setTitle(request.getTitle());
+        existingPost.setContent(request.getContent());
+        existingPost.setStatus(request.getStatus());
+        existingPost.setReadingTime(calculateReadingTIme(request.getContent()));
+
+        UUID updatePostCategoryId = request.getCategoryId();
+        if (!existingPost.getCategory().getId().equals(updatePostCategoryId)) {
+            Category category = categoryService.getCategoryById(updatePostCategoryId);
+            existingPost.setCategory(category);
+        }
+//        looping untuk mencari tags yang ada
+        Set<UUID> existingTagIds = existingPost.getTags()
+                .stream()
+                .map(Tag::getId)
+                .collect(Collectors.toSet());
+        Set<UUID> updatedPostRequestAndTagsIds = request.getTagIds();
+        if (!existingTagIds.containsAll(updatedPostRequestAndTagsIds)) {
+            List<Tag> newTags = tagService.getTagsByIds(updatedPostRequestAndTagsIds);
+            existingPost.setTags(new HashSet<>(newTags));
+        }
+
+        return postRepository.save(existingPost);
     }
 
     @Override
