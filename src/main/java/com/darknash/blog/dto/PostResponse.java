@@ -20,7 +20,7 @@ public class PostResponse {
     private String content;
     private AuthorResponse author;
     private CategoryResponse category;
-    private Set<TagResponse> tagResponses;
+    private Set<TagResponse> tags;
     private Integer readingTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

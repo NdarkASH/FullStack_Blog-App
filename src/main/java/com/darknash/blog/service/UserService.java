@@ -5,5 +5,5 @@ import com.darknash.blog.model.User;
 import java.util.UUID;
 
 public interface UserService {
-    User findUserById(UUID uuid);
+    User getUserById(UUID uuid);
 }

@@ -16,3 +16,11 @@ spring:
 jwt:
   secret: your-256-bit-secret-key-here-make-it-at-least-32-bytes-long
 
+api:
+  paths:
+    auth: "/api/v1/auth/login"
+    blog: "/api/v1/blogs"
+    tag: "/api/v1/tags"
+    post: "/api/v1/posts"
+
+

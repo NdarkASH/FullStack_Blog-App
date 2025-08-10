@@ -3,13 +3,11 @@ package com.darknash.blog.service.impl;
 import com.darknash.blog.model.Tag;
 import com.darknash.blog.repository.TagRepository;
 import com.darknash.blog.service.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,27 +34,44 @@ public class TagsServiceImplement implements TagService {
                         name-> {
                             Tag tag = new Tag();
                             tag.setName(name);
-                            tag.setPosts(HashSet.newHashSet());
+                            tag.setPosts(new HashSet<>());
                             return tag;
 
                         }).toList();
 
-
-        return List.of();
+        if (!newTags.isEmpty()) {
+            tagRepository.saveAll(newTags);
+        }
+        List<Tag> resultTags = new ArrayList<>(existingTags);
+        resultTags.addAll(newTags);
+        return resultTags;
     }
 
     @Override
     public void deleteTag(UUID tagsId) {
+        tagRepository.findById(tagsId).ifPresent(tag -> {
+            if (!tag.getPosts().isEmpty()) {
+                throw new IllegalArgumentException("You can't delete tags that have no posts");
+            }
+            tagRepository.deleteById(tagsId);
+        });
+
+        tagRepository.deleteById(tagsId);
 
     }
 
     @Override
     public Tag getTagById(UUID requestId) {
-        return null;
+        return tagRepository.findById(requestId)
+                .orElseThrow(()-> new EntityNotFoundException("No tag found with id: " + requestId));
     }
 
     @Override
     public List<Tag> getTagsByIds(Set<UUID> requestIds) {
-        return List.of();
+        List<Tag> foundTags = tagRepository.findAllById(requestIds);
+        if (foundTags.size() != requestIds.size()) {
+            throw new EntityNotFoundException("No tags found with ids: " + requestIds);
+        }
+        return foundTags;
     }
 }
