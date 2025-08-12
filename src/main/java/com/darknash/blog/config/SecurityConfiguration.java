@@ -1,11 +1,16 @@
 package com.darknash.blog.config;
 
+import com.darknash.blog.model.Category;
+import com.darknash.blog.model.Tag;
 import com.darknash.blog.model.User;
+import com.darknash.blog.repository.CategoryRepository;
+import com.darknash.blog.repository.TagRepository;
 import com.darknash.blog.repository.UserRepository;
 import com.darknash.blog.security.BlogUserDetailsService;
 import com.darknash.blog.security.JwtAuthenticationFilter;
 import com.darknash.blog.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -50,6 +55,34 @@ public class SecurityConfiguration {
                     return userRepository.save(user);
                 });
         return userDetailsService;
+    }
+
+    @Bean
+    public CommandLineRunner loadTagData(TagRepository tagRepository) {
+        return args -> {
+            if (tagRepository.count() == 0) {
+                Tag tag1 = new Tag();
+                tag1.setName("Darknash");
+                tagRepository.save(tag1);
+                Tag tag2 = new Tag();
+                tag2.setName("Naofumi");
+                tagRepository.save(tag2);
+            }
+        };
+    }
+
+    @Bean
+    public CommandLineRunner loadCategory(CategoryRepository categoryRepository) {
+        return args -> {
+            if (categoryRepository.count() == 0) {
+                Category category1 = new Category();
+                category1.setName("Darknash");
+                categoryRepository.save(category1);
+                Category category2 = new Category();
+                category2.setName("Naofumi");
+                categoryRepository.save(category2);
+            }
+        };
     }
 
 

@@ -1,5 +1,6 @@
 package com.darknash.blog.controller;
 
+import com.darknash.blog.constant.ApiPaths;
 import com.darknash.blog.dto.AppResponse;
 import com.darknash.blog.dto.CreatePostRequest;
 import com.darknash.blog.dto.PostResponse;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping(value = "#{@apiPaths.post}")
+@RequestMapping(value = ApiPaths.POSTS)
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -63,9 +64,9 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public AppResponse<PostResponse> createPost(
             @Valid @RequestBody CreatePostRequest request,
-            @RequestAttribute UUID postId
+            @RequestAttribute UUID userId
     ) {
-        User loggedInUser = userService.getUserById(postId);
+        User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreateRequest(request);
         Post post = postService.createPost(loggedInUser, createPostRequest);
         PostResponse postResponse = postMapper.toDto(post);

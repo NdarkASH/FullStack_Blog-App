@@ -54,7 +54,7 @@ public class BlogUserDetails implements UserDetails {
     }
 
     public UUID getId(){
-        return user.getId();
+        return user.getUuid();
     }
 
 }

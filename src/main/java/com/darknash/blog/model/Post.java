@@ -20,10 +20,11 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID uuid;
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private PostStatus status;

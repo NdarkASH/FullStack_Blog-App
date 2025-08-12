@@ -1,5 +1,6 @@
 package com.darknash.blog.controller;
 
+import com.darknash.blog.constant.ApiPaths;
 import com.darknash.blog.dto.AppResponse;
 import com.darknash.blog.dto.AuthResponse;
 import com.darknash.blog.dto.LoginRequest;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "#{@apiPaths.auth}")
+@RequestMapping(path = ApiPaths.AUTH)
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
 
 
-    @PostMapping
+    @PostMapping(path = "/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public AppResponse<AuthResponse> login(@RequestBody LoginRequest request) {
         UserDetails userDetails = authenticationService.authenticate(

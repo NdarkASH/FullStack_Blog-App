@@ -101,14 +101,14 @@ public class PostServiceImplement implements PostService {
         existingPost.setReadingTime(calculateReadingTIme(request.getContent()));
 
         UUID updatePostCategoryId = request.getCategoryId();
-        if (!existingPost.getCategory().getId().equals(updatePostCategoryId)) {
+        if (!existingPost.getCategory().getUuid().equals(updatePostCategoryId)) {
             Category category = categoryService.getCategoryById(updatePostCategoryId);
             existingPost.setCategory(category);
         }
 //        looping untuk mencari tags yang ada
         Set<UUID> existingTagIds = existingPost.getTags()
                 .stream()
-                .map(Tag::getId)
+                .map(Tag::getUuid)
                 .collect(Collectors.toSet());
         Set<UUID> updatedPostRequestAndTagsIds = request.getTagIds();
         if (!existingTagIds.containsAll(updatedPostRequestAndTagsIds)) {

@@ -14,5 +14,5 @@ import java.util.UUID;
 public class CategoryResponse {
     private UUID uuid;
     private String name;
-    private Long postCount;
+    private long postCount;
 }
