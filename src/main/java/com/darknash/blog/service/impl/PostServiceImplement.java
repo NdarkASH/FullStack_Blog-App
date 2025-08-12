@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,12 +79,14 @@ public class PostServiceImplement implements PostService {
     @Override
     public Post createPost(User user, CreatePostRequest request) {
         Post post = new Post();
-        post.setAuthor(user);
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setStatus(request.getStatus());
         post.setCategory(categoryService.getCategoryById(request.getCategoryId()));
         post.setReadingTime(calculateReadingTIme(request.getContent()));
+        post.setCreatedAt(LocalDateTime.now());
+        post.setUpdatedAt(LocalDateTime.now());
+        post.setAuthor(user);
         Set<UUID> tagsIds = request.getTags();
         List<Tag> tags = tagService.getTagsByIds(tagsIds);
         post.setTags(new HashSet<>(tags));
