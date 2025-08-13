@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/blog
+    username: darknash
+    password: darknash
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+  application:
+    name: blog-apps
+
+jwt:
+  secret: your-256-bit-secret-key-here-make-it-at-least-32-bytes-long
+
+api:
+  paths:
+    auth: "/api/v1/auth/login"
+    blog: "/api/v1/blogs"
+    tag: "/api/v1/tags"
+    post: "/api/v1/posts"
+
+
