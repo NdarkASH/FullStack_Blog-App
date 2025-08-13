@@ -16,6 +16,8 @@ public class ApiPaths {
 
     public static final String TAGS = API_V1 + "/tags";
 
+    public static final String REGISTER = API_V1 + "/register";
+
 
     // Private constructor to prevent instantiation
     private ApiPaths() {

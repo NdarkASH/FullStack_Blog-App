@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,5 +38,25 @@ public class TagController {
                 .data(tagResponses)
                 .build();
 
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public AppResponse<List<TagResponse>> getAllTags() {
+        List<Tag> tags = tagService.getTags();
+        List<TagResponse> tagResponses = tags.stream().map(tagMapper::toDto).toList();
+
+        return AppResponse.<List<TagResponse>>builder()
+                .msg(HttpStatus.OK.toString())
+                .code(HttpStatus.OK.value())
+                .data(tagResponses)
+                .build();
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public AppResponse<Void> deleteTag(@PathVariable UUID id) {
+        tagService.deleteTag(id);
+        return AppResponse.<Void>builder().build();
     }
 }

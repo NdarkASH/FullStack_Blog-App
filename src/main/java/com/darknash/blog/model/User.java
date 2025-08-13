@@ -1,6 +1,7 @@
 package com.darknash.blog.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
+    @NotNull
+    @Column(unique = true)
     private String email;
 
     private String password;

@@ -5,7 +5,6 @@ import com.darknash.blog.dto.AppResponse;
 import com.darknash.blog.dto.CategoryResponse;
 import com.darknash.blog.dto.CreateCategoryRequest;
 import com.darknash.blog.mapper.CategoryMapper;
-import com.darknash.blog.mapper.PostMapper;
 import com.darknash.blog.model.Category;
 import com.darknash.blog.service.CategoryService;
 import jakarta.validation.Valid;
