@@ -18,6 +18,13 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export interface AuthResponse {
   token: string;
   expiresIn: number;
@@ -145,6 +152,12 @@ class ApiService {
     localStorage.removeItem("token");
   }
 
+  public async register(register: RegisterRequest): Promise<RegisterRequest> {
+    const response: AxiosResponse<AppWrapperResponse<RegisterRequest>> = await this.api.post("/register", register);
+
+    return response.data.data;
+  }
+
   public async getPost(params: {
     categoryId?: UUID;
     tagId?: UUID;
@@ -205,26 +218,31 @@ class ApiService {
     return response.data.data;
   }
 
-  public async deleteCategory(id: UUID):Promise<void> {
-    const response: AxiosResponse<AppWrapperResponse<void>> = await this.api.delete(`/categories/${id}`);
+  public async deleteCategory(id: UUID): Promise<void> {
+    const response: AxiosResponse<AppWrapperResponse<void>> =
+      await this.api.delete(`/categories/${id}`);
 
     return response.data.data;
   }
 
   public async getTags(): Promise<Tag[]> {
-    const response: AxiosResponse<AppWrapperResponse<Tag[]>> = await this.api.get(`/tags`);
+    const response: AxiosResponse<AppWrapperResponse<Tag[]>> =
+      await this.api.get(`/tags`);
 
     return response.data.data;
   }
 
   public async createTags(names: string[]): Promise<Tag[]> {
-    const response: AxiosResponse<AppWrapperResponse<Tag[]>> = await this.api.post('/tags', { names });
+    const response: AxiosResponse<AppWrapperResponse<Tag[]>> =
+      await this.api.post("/tags", { names });
 
     return response.data.data;
   }
 
   public async deleteTag(id: UUID): Promise<void> {
-    const response: AxiosResponse<AppWrapperResponse<void>> = await this.api.delete(`/tags/${id}`)
+    const response: AxiosResponse<AppWrapperResponse<void>> = await this.api.delete(`/tags/${id}`);
+    
+    return response.data.data;
   }
 }
 
