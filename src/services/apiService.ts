@@ -1,11 +1,10 @@
-import { UUID } from "crypto";
 
 import axios, {
   AxiosError,
   AxiosInstance,
   AxiosResponse,
   InternalAxiosRequestConfig,
-} from "axios";
+} from "Axios";
 
 export interface AppWrapperResponse<T> {
   code: number;
@@ -31,28 +30,28 @@ export interface AuthResponse {
 }
 
 export interface AuthorResponse {
-  authorId: UUID;
+  authorId: string;
   authorName: string;
 }
 
 export interface Category {
-  uuid: UUID;
+  uuid: string;
   name: string;
   postCount: number;
 }
 
 export interface Tag {
-  uuid: UUID;
+  uuid: string;
   name: string;
   postCount?: number;
 }
 
 export interface Post {
-  id: UUID;
+  id: string;
   title: string;
   content: string;
   author?: {
-    id: UUID;
+    id: string;
     name: string;
   };
   category: Category;
@@ -66,8 +65,8 @@ export interface Post {
 export interface CreatePostRequest {
   title: string;
   content: string;
-  categoryId: UUID;
-  tagsIds: UUID[];
+  categoryId: string;
+  tagsIds: string[];
   status: PostStatus;
 }
 
@@ -159,8 +158,8 @@ class ApiService {
   }
 
   public async getPost(params: {
-    categoryId?: UUID;
-    tagId?: UUID;
+    categoryId?: string;
+    tagId?: string;
   }): Promise<Post[]> {
     const response: AxiosResponse<AppWrapperResponse<Post[]>> =
       await this.api.get(`/posts`, { params });
@@ -182,7 +181,7 @@ class ApiService {
     return response.data.data;
   }
 
-  public async deletePost(id: UUID): Promise<void> {
+  public async deletePost(id: string): Promise<void> {
     await this.api.delete(`/posts/${id}`);
   }
 
@@ -211,14 +210,14 @@ class ApiService {
     return response.data.data;
   }
 
-  public async updateCategory(id: UUID, name: string): Promise<Category> {
+  public async updateCategory(id: string, name: string): Promise<Category> {
     const response: AxiosResponse<AppWrapperResponse<Category>> =
       await this.api.put(`/categories/${id}`, { id, name });
 
     return response.data.data;
   }
 
-  public async deleteCategory(id: UUID): Promise<void> {
+  public async deleteCategory(id: string): Promise<void> {
     const response: AxiosResponse<AppWrapperResponse<void>> =
       await this.api.delete(`/categories/${id}`);
 
@@ -239,7 +238,7 @@ class ApiService {
     return response.data.data;
   }
 
-  public async deleteTag(id: UUID): Promise<void> {
+  public async deleteTag(id: string): Promise<void> {
     const response: AxiosResponse<AppWrapperResponse<void>> = await this.api.delete(`/tags/${id}`);
     
     return response.data.data;

@@ -1,11 +1,11 @@
+
 import React, {createContext, useContext, useState, useCallback, useEffect} from "react";
 
 import { apiService } from "@/services/apiService";
-import { UUID } from "crypto";
 
 
 interface AuthUser {
-    id: UUID;
+    id: string;
     name: string;
     email: string;
 }
@@ -17,13 +17,6 @@ interface AuthContextType {
     logout: () => void;
     token: string | null;
 }
-
-interface ApiWrapperResponse<T> {
-    code: number;
-    msg: string;
-    data: T;
-}
-
 
 interface AuthProviderProps {
     children: React.ReactNode;
