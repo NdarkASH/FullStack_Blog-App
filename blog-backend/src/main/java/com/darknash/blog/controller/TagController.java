@@ -8,6 +8,7 @@ import com.darknash.blog.mapper.TagMapper;
 import com.darknash.blog.model.Tag;
 import com.darknash.blog.service.TagService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = ApiPaths.TAGS)
@@ -27,7 +29,8 @@ public class TagController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AppResponse<List<TagResponse>> createTags(@RequestBody CreateTagRequest request) {
-        List<Tag> tags = tagService.createTags(request.getName());
+        log.info("Create tag request: {}", request);
+        List<Tag> tags = tagService.createTags(request.getNames());
         List<TagResponse> tagResponses = tags.stream()
                 .map(tagMapper::toDto)
                 .collect(Collectors.toList());

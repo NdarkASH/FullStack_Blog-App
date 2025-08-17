@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class TagResponse {
-    private UUID tagId;
-    private String tagName;
+    private UUID uuid;
+    private String name;
     private Integer postCount;
 }

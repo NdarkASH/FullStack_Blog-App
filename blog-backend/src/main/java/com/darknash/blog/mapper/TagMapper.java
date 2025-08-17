@@ -15,8 +15,6 @@ import java.util.Set;
 public interface TagMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    @Mapping(target = "tagId", source = "uuid")
-    @Mapping(target = "tagName", source = "name")
     TagResponse toDto(Tag tag);
 
     @Named("calculatePostCount")

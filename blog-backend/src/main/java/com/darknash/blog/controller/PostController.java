@@ -12,12 +12,15 @@ import com.darknash.blog.service.PostService;
 import com.darknash.blog.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Slf4j
 @RequestMapping(value = ApiPaths.POSTS)
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +28,9 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
     private final PostMapper postMapper;
+
+
+
 
     @GetMapping
     public AppResponse<List<PostResponse>> getAllPosts(
@@ -46,12 +52,16 @@ public class PostController {
 
     @GetMapping(path = "/drafts")
     @ResponseStatus(HttpStatus.OK)
-    public AppResponse<List<PostResponse>> getDraftPost(@RequestAttribute UUID postId) {
-        User loggedInUser = userService.getUserById(postId);
+    public AppResponse<List<PostResponse>> getDraftPost(@RequestAttribute UUID userId) {
+        log.warn("getDraftPost");
+        User loggedInUser = userService.getUserById(userId);
+        log.info("loggedInUser: {}", loggedInUser);
         List<Post> draftPosts = postService.getDraftPosts(loggedInUser);
+        log.info("draftPosts: {}", draftPosts);
         List<PostResponse> postResponses = draftPosts.stream()
                 .map(postMapper::toDto)
                 .toList();
+        log.info("postResponses: {}", postResponses);
         return AppResponse.
                 <List<PostResponse>>builder()
                 .code(HttpStatus.OK.value())
