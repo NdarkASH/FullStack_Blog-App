@@ -24,3 +24,10 @@ api:
     post: "/api/v1/posts"
 
 
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web:
+          authentication: debug

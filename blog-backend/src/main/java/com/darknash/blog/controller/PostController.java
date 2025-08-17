@@ -106,11 +106,12 @@ public class PostController {
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public AppResponse<Void> deletePost(@PathVariable UUID id) {
         postService.deletePost(id);
         return AppResponse.<Void>builder()
-                .code(HttpStatus.NO_CONTENT.value())
-                .msg(HttpStatus.NO_CONTENT.getReasonPhrase())
+                .code(HttpStatus.OK.value())
+                .msg("Category deleted")
                 .build();
     }
 

@@ -8,7 +8,7 @@ import ListItem from '@tiptap/extension-list-item'
 import { Button, Card, CardBody, Chip, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Select, SelectItem, SelectSection } from "@nextui-org/react";
 import { Bold, ChevronDown, Italic, List, ListOrdered, Redo, Undo, X } from "lucide-react";
 
-import { Category, Post, PostStatus, Tag } from "@/services/apiService";
+import { Category, Post, PostStatus, Tag } from "@/service/apiService";
 
 interface PostFormProps {
     initialPost?: Post | null;

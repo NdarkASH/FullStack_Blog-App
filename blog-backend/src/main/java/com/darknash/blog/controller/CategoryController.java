@@ -42,22 +42,39 @@ public class CategoryController {
             @Valid @RequestBody CreateCategoryRequest request) {
         Category category = categoryMapper.toEntity(request);
         Category savedCategory = categoryService.crateCategory(category);
+        CategoryResponse categoryResponse = categoryMapper.toDto(savedCategory);
 
         return AppResponse.<CategoryResponse>builder()
                 .code(HttpStatus.CREATED.value())
                 .msg(HttpStatus.CREATED.getReasonPhrase())
-                .data(categoryMapper.toDto(savedCategory))
+                .data(categoryResponse)
                 .build();
     }
 
+    @GetMapping(path = "/{id}")
+    public AppResponse<CategoryResponse> getCategoryById(@PathVariable UUID id) {
+        Category category = categoryService.getCategoryById(id);
+        CategoryResponse categoryResponse = categoryMapper.toDto(category);
+
+        return AppResponse.
+                <CategoryResponse>
+                builder()
+                .msg(HttpStatus.OK.getReasonPhrase())
+                .msg(HttpStatus.OK.getReasonPhrase())
+                .data(categoryResponse)
+                .build();
+
+    };
+
     @DeleteMapping(path = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public AppResponse<Void> deleteCategory(@PathVariable UUID id) {
         categoryService.deleteCategory(id);
 
         return AppResponse.<Void>builder()
-                .code(HttpStatus.NO_CONTENT.value())
-                .msg(HttpStatus.NO_CONTENT.getReasonPhrase())
+                .code(HttpStatus.OK.value())
+                .msg(HttpStatus.OK.getReasonPhrase())
+                .data(null)
                 .build();
     }
 
