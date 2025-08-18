@@ -140,7 +140,7 @@ class ApiService {
 
   public async login(credentials: LoginRequest): Promise<AuthResponse> {
     const response: AxiosResponse<AppWrapperResponse<AuthResponse>> =
-      await this.api.post("/auth/login", credentials);
+      await this.api.post("/login", credentials);
 
     localStorage.setItem("token", response.data.data.token);
 
@@ -151,8 +151,10 @@ class ApiService {
     localStorage.removeItem("token");
   }
 
-  public async register(register: RegisterRequest): Promise<RegisterRequest> {
-    const response: AxiosResponse<AppWrapperResponse<RegisterRequest>> = await this.api.post("/register", register);
+  public async register(register: RegisterRequest): Promise<AuthResponse> {
+    const response: AxiosResponse<AppWrapperResponse<AuthResponse>> = await this.api.post("/register", register);
+
+    localStorage.setItem("token", response.data.data.token)
 
     return response.data.data;
   }

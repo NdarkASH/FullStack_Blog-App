@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = ApiPaths.AUTH)
+@RequestMapping(path = ApiPaths.LOGIN)
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
 
 
-    @PostMapping(path = "/login")
+    @PostMapping()
     @ResponseStatus(HttpStatus.ACCEPTED)
     public AppResponse<AuthResponse> login(@RequestBody LoginRequest request) {
         UserDetails userDetails = authenticationService.authenticate(

@@ -4,6 +4,7 @@ import com.darknash.blog.dto.CreateNewUser;
 import com.darknash.blog.exception.DuplicateEntity;
 import com.darknash.blog.model.User;
 import com.darknash.blog.repository.UserRepository;
+import com.darknash.blog.service.AuthenticationService;
 import com.darknash.blog.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class UserServiceImplement implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationService authenticationService;
 
     @Override
     public User getUserById(UUID uuid) {

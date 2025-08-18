@@ -6,7 +6,7 @@ public class ApiPaths {
     public static final String API_V1 = "/api/v1";
 
     // Authentication endpoints
-    public static final String AUTH = API_V1 + "/auth";
+    public static final String LOGIN = API_V1 + "/login";
 
     public static final String CATEGORIES = API_V1 + "/categories";
 

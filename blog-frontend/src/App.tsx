@@ -1,9 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider, useAuth } from "./components/AuthContext";
-import "../src/App.css"
+import "../src/styles/globals.css"
 import NavBar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import CategoriesPage from "./pages/CategoriesPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -31,6 +33,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<LoginPage />}/>
           <Route path="/login" element={<HomePage />}/>
+          <Route path="/categories" element={<CategoriesPage isAuthenticated={isAuthenticated} />} />
+          <Route path="/register" element={<RegisterPage />}></Route>
+          
         </Routes>
         
 

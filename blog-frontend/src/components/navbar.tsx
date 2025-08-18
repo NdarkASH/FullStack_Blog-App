@@ -1,7 +1,20 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import {BookDashed, Edit, LogOut, Plus} from "lucide-react";
-import { Navbar, NavbarContent, NavbarMenuToggle, NavbarBrand, NavbarItem, Button, Dropdown, Avatar, DropdownTrigger, DropdownMenu, DropdownItem, NavbarMenu, NavbarMenuItem } from '@nextui-org/react';
+import {BookDashed, Edit3, LogOut, Plus} from "lucide-react";
+import { Navbar, 
+  NavbarContent,
+   NavbarMenuToggle,
+   NavbarBrand,
+   NavbarItem,
+   Button,
+   Dropdown,
+   Avatar,
+   DropdownTrigger,
+   DropdownMenu,
+   DropdownItem,
+   NavbarMenu,
+   NavbarMenuItem
+  } from '@nextui-org/react';
 
 
 interface NavBarProps {
@@ -104,7 +117,7 @@ const NavBar: React.FC<NavBarProps> = ({
                 <DropdownMenu aria-label="User menu">
                   <DropdownItem
                     key="drafts"
-                    startContent={<Edit size={16}/>}
+                    startContent={<Edit3 size={16}/>}
                   >
                     <Link to="/posts/drafts"> My Drafts</Link>
                   </DropdownItem>

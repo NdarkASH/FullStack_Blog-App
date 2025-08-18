@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components; 
-@tailwind utilities;
+@import "tailwindcss";
 
 
 
@@ -15,47 +13,45 @@ html, body, #root {
   min-height: 100%;
 }
 
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
+.ProseMirror > * + * {
+  margin-top: 0.75em;
+}
 
-  h1 {
-    font-size: 2em;
-    font-weight: bold;
-  }
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
 
-  h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
-  h3 {
-    font-size: 1.17em;
-    font-weight: bold;
-  }
+.ProseMirror h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+}
 
-  ul {
-    padding-left: 1.5em;
-    list-style-type: disc;
-  }
+.ProseMirror ul {
+  padding-left: 1.5em;
+  list-style-type: disc;
+}
 
-  ol {
-    padding-left: 1.5em;
-    list-style-type: decimal;
-  }
+.ProseMirror ol {
+  padding-left: 1.5em;
+  list-style-type: decimal;
+}
 
-  li {
-    margin-bottom: 0.5em;
-  }
+.ProseMirror li {
+  margin-bottom: 0.5em;
+}
 
-  /* Nested lists */
-  ul ul,
-  ol ol,
-  ul ol,
-  ol ul {
-    margin-top: 0.5em;
-  }
+/* Nested lists */
+.ProseMirror ul ul,
+.ProseMirror ol ol,
+.ProseMirror ul ol,
+.ProseMirror ol ul {
+  margin-top: 0.5em;
 }
 
 /* Style for focused editor */
