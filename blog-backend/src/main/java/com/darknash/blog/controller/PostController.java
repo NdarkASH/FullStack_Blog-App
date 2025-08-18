@@ -87,7 +87,7 @@ public class PostController {
                 .build();
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{id}/edit")
     @ResponseStatus(HttpStatus.OK)
     public AppResponse<PostResponse> updatePost(
             @PathVariable UUID id,

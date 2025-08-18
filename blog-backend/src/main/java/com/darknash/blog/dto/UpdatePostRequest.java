@@ -20,7 +20,7 @@ import java.util.UUID;
 public class UpdatePostRequest {
 
     @NotNull(message = "Post ID is required")
-    private UUID postId;
+    private UUID id;
 
     @NotBlank(message = "title is required")
     @Size(min = 10, max = 200, message = "Title must be between {min} and {max} characters " )

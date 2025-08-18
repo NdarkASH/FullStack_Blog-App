@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DOMPurify from 'dompurify'
 import { Card, CardBody, CardFooter, CardHeader, Chip } from '@nextui-org/react';
 import { Calendar, Clock, Tag } from 'lucide-react';
+import { AuthorResponse } from '../service/apiService';
 
 
 interface PostListProps {
@@ -106,7 +107,7 @@ const PostList: React.FC<PostListProps> = ({
                                                 {post.title}
                                             </h2>
                                             <p className="text-small text-default-500">
-                                                by {post.author?.name}
+                                                by {post.author?.authorName}
                                             </p>
                                         </div>
                                     </CardHeader>

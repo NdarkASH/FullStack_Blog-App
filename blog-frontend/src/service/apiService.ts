@@ -50,10 +50,7 @@ export interface Post {
   id: string;
   title: string;
   content: string;
-  author?: {
-    id: string;
-    name: string;
-  };
+  author?: AuthorResponse;
   category: Category;
   tags: Tag[];
   readingTime?: number;
