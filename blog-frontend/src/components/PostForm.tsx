@@ -15,7 +15,7 @@ import {
 } from '@nextui-org/react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import Heading from '@tiptap/extension-heading';
+import Heading, { Level } from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -37,7 +37,7 @@ interface PostFormProps {
     title: string;
     content: string;
     categoryId: string;
-    tagIds: string[];
+    tags: string[];
     status: PostStatus;
   }) => Promise<void>;
   onCancel: () => void;
@@ -55,7 +55,7 @@ const PostForm: React.FC<PostFormProps> = ({
   isSubmitting = false,
 }) => {
   const [title, setTitle] = useState(initialPost?.title || '');
-  const [categoryId, setCategoryId] = useState(initialPost?.category?.id || '');
+  const [categoryId, setCategoryId] = useState(initialPost?.category?.uuid || '');
   const [selectedTags, setSelectedTags] = useState<Tag[]>(initialPost?.tags || []);
   const [status, setStatus] = useState<PostStatus>(
     initialPost?.status || PostStatus.DRAFT
@@ -94,7 +94,7 @@ const PostForm: React.FC<PostFormProps> = ({
     if (initialPost && editor) {
       setTitle(initialPost.title);
       editor.commands.setContent(initialPost.content);
-      setCategoryId(initialPost.category?.id);
+      setCategoryId(initialPost.category?.uuid);
       setSelectedTags(initialPost.tags);
       setStatus(initialPost.status || PostStatus.DRAFT);
     }
@@ -128,7 +128,7 @@ const PostForm: React.FC<PostFormProps> = ({
       title: title.trim(),
       content: editor?.getHTML() || '',
       categoryId: categoryId,
-      tagIds: selectedTags.map(tag => tag.id),
+      tags: selectedTags.map(tag => tag.uuid),
       status,
     });
   };
@@ -143,7 +143,7 @@ const PostForm: React.FC<PostFormProps> = ({
     setSelectedTags(selectedTags.filter(tag => tag !== tagToRemove));
   };
 
-  const handleHeadingSelect = (level: number) => {
+  const handleHeadingSelect = (level: Level) => {
     editor?.chain().focus().toggleHeading({ level }).run();
   };
 
@@ -179,9 +179,12 @@ const PostForm: React.FC<PostFormProps> = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu
-                  onAction={(key) => handleHeadingSelect(Number(key))}
-                  aria-label="Heading levels"
-                >
+                  aria-label="Heading levels" 
+                  onAction={(key)=>{ const lvl = Number(key) 
+                    if (![1,2,3].includes(lvl)) 
+                      return; 
+                    handleHeadingSelect(lvl as Level); }}
+                  >
                   <DropdownItem key="1" className={editor?.isActive('heading', { level: 1 }) ? 'bg-default-200' : ''}>
                     Heading 1
                   </DropdownItem>
@@ -271,7 +274,7 @@ const PostForm: React.FC<PostFormProps> = ({
               isRequired
             >
               {categories.map((cat) => (
-                <SelectItem key={cat.id} value={cat.id}>
+                <SelectItem key={cat.uuid} value={cat.uuid}>
                   {cat.name}
                 </SelectItem>
               ))}
@@ -281,12 +284,12 @@ const PostForm: React.FC<PostFormProps> = ({
           <div className="space-y-2">
             <Select
               label="Add Tags"
-              selectedKeys={selectedTags.map(tag => tag.id)}>
+              selectedKeys={selectedTags.map(tag => tag.uuid)}>
               <SelectSection>
                 {suggestedTags.map((tag) => (
                   <SelectItem
-                    key={tag.id}
-                    value={tag.id}
+                    key={tag.uuid}
+                    value={tag.uuid}
                     onClick={() => handleTagAdd(tag)}
                   >
                     {tag.name}
@@ -297,7 +300,7 @@ const PostForm: React.FC<PostFormProps> = ({
             <div className="flex flex-wrap gap-2 mt-2">
               {selectedTags.map((tag) => (
                 <Chip
-                  key={tag.id}
+                  key={tag.uuid}
                   onClose={() => handleTagRemove(tag)}
                   variant="flat"
                   endContent={<X size={14} />}

@@ -10,7 +10,7 @@ interface AuthUser {
 interface AuthContextType {
   isAuthenticated: boolean;
   user: AuthUser | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (token: string) => Promise<void>;
   logout: () => void;
   token: string | null;
 }
@@ -50,12 +50,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (token: string) => {
     try {
-      const response = await apiService.login({ email, password });
       
-      localStorage.setItem('token', response.token);
-      setToken(response.token);
+      localStorage.setItem('token', token);
+      setToken(token);
       setIsAuthenticated(true);
 
       // TODO: Add endpoint to fetch user profile after login

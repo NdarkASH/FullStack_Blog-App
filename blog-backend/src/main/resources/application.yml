@@ -1,9 +1,16 @@
 spring:
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/blog
-    username: darknash
-    password: darknash
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
   jpa:
     show-sql: true
     hibernate:
@@ -13,10 +20,9 @@ spring:
   application:
     name: blog-apps
 
+
 jwt:
   secret: your-256-bit-secret-key-here-make-it-at-least-32-bytes-long
-
-
 
 logging:
   level:
@@ -24,4 +30,4 @@ logging:
       springframework:
         security:
           web:
-          authentication: debug
+            authentication: debug

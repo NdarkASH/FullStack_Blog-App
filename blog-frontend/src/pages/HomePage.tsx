@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
               <Tab key="all" title="All Posts" />
               {categories.map((category) => (
                 <Tab 
-                  key={category.id} 
+                  key={category.uuid} 
                   title={`${category.name} (${category.postCount})`}
                 />
               ))}
@@ -87,10 +87,10 @@ const HomePage: React.FC = () => {
               <div className="flex gap-2 flex-wrap">
                 {tags.map((tag) => (
                   <button
-                    key={tag.id}
-                    onClick={() => setSelectedTag(selectedTag == tag.id ? undefined : tag.id)}
+                    key={tag.uuid}
+                    onClick={() => setSelectedTag(selectedTag == tag.uuid ? undefined : tag.uuid)}
                     className={`px-3 py-1 rounded-full text-sm ${
-                      selectedTag === tag.id
+                      selectedTag === tag.uuid
                         ? 'bg-primary text-white'
                         : 'bg-default-100 hover:bg-default-200'
                     }`}

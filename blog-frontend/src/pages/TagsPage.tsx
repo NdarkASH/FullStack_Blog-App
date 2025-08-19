@@ -79,7 +79,7 @@ const TagsPage: React.FC<TagsPageProps> = ({ isAuthenticated }) => {
 
     try {
       setLoading(true);
-      await apiService.deleteTag(tag.id);
+      await apiService.deleteTag(tag.uuid);
       await fetchTags();
     } catch (err) {
       setError("Failed to delete tag. Please try again.");
@@ -120,12 +120,13 @@ const TagsPage: React.FC<TagsPageProps> = ({ isAuthenticated }) => {
             <Button
               color="primary"
               startContent={<Plus size={16} />}
-              onPress={onOpen}
+              onClick={onOpen}
             >
               Add Tags
             </Button>
           )}
         </CardHeader>
+
         <CardBody>
           {error && (
             <div className="mb-4 p-4 text-red-500 bg-red-50 rounded-lg">
@@ -150,7 +151,7 @@ const TagsPage: React.FC<TagsPageProps> = ({ isAuthenticated }) => {
               loadingContent={<div>Loading tags...</div>}
             >
               {tags.map((tag) => (
-                <TableRow key={tag.id}>
+                <TableRow key={tag.uuid}>
                   <TableCell>{tag.name}</TableCell>
                   <TableCell>{tag.postCount || 0}</TableCell>
                   <TableCell>

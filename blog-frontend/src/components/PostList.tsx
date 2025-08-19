@@ -83,7 +83,7 @@ const PostList: React.FC<PostListProps> = ({
   }
 
   const navToPostPage = (post: Post) => {
-    navigate(`/posts/${post.id}`)
+    navigate(`/posts/${post.uuid}`)
   }
 
   return (
@@ -118,14 +118,14 @@ const PostList: React.FC<PostListProps> = ({
         <>
           <div className="space-y-4">
             {posts?.map((post) => (
-              <Card key={post.id} className="w-full p-2" isPressable={true} onPress={() => navToPostPage(post)}>
+              <Card key={post.uuid} className="w-full p-2" isPressable={true} onPress={() => navToPostPage(post)}>
                 <CardHeader className="flex gap-3">                 
                     <div className='flex flex-col'>
                     <h2 className="text-xl font-bold text-left">
                       {post.title}
                     </h2>
                     <p className="text-small text-default-500">
-                      by {post.author?.name}
+                      by {post.author?.authorName}
                     </p>                
                     </div>
                 </CardHeader>
@@ -151,7 +151,7 @@ const PostList: React.FC<PostListProps> = ({
                     </Chip>
                     {post.tags.map((tag) => (
                       <Chip
-                        key={tag.id}
+                        key={tag.uuid}
                         className="bg-default-100"
                         startContent={<Tag size={14} />}
                       >

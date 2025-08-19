@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -52,7 +53,7 @@ const EditPostPage: React.FC = () => {
     title: string;
     content: string;
     categoryId: string;
-    tagIds: string[];
+    tags: string[];
     status: PostStatus;
   }) => {
     try {
@@ -64,6 +65,7 @@ const EditPostPage: React.FC = () => {
           ...postData,
           id
         });
+
       } else {
         await apiService.createPost(postData);
       }

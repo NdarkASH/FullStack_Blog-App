@@ -63,7 +63,7 @@ const PostPage: React.FC<PostPageProps> = ({
 
     try {
       setIsDeleting(true);
-      await apiService.deletePost(post.id);
+      await apiService.deletePost(post.uuid);
       navigate('/');
     } catch (err) {
       setError('Failed to delete the post. Please try again later.');
@@ -159,7 +159,7 @@ const PostPage: React.FC<PostPageProps> = ({
                 <>
                   <Button
                     as={Link}
-                    to={`/posts/${post.id}/edit`}
+                    to={`/posts/${post.uuid}/edit`}
                     color="primary"
                     variant="flat"
                     startContent={<Edit size={16} />}
@@ -193,10 +193,10 @@ const PostPage: React.FC<PostPageProps> = ({
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Avatar
-                name={post.author?.name}
+                name={post.author?.authorName}
                 size="sm"
               />
-              <span className="text-default-600">{post.author?.name}</span>
+              <span className="text-default-600">{post.author?.authorName}</span>
             </div>
             <div className="flex items-center gap-2 text-default-500">
               <Calendar size={16} />
@@ -226,7 +226,7 @@ const PostPage: React.FC<PostPageProps> = ({
             </Chip>
             {post.tags.map((tag) => (
               <Chip
-                key={tag.id}
+                key={tag.uuid}
                 variant="flat"
                 startContent={<Tag size={14} />}
               >

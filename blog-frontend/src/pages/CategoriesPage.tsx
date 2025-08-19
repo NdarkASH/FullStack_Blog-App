@@ -61,7 +61,7 @@ const CategoriesPage: React.FC<CategoriesPageProps> = ({ isAuthenticated }) => {
       setIsSubmitting(true);
       if (editingCategory) {
         await apiService.updateCategory(
-          editingCategory.id,
+          editingCategory.uuid,
           newCategoryName.trim()
         );
       } else {
@@ -91,7 +91,7 @@ const CategoriesPage: React.FC<CategoriesPageProps> = ({ isAuthenticated }) => {
 
     try {
       setLoading(true);
-      await apiService.deleteCategory(category.id);
+      await apiService.deleteCategory(category.uuid);
       await fetchCategories();
     } catch (err) {
       setError("Failed to delete category. Please try again.");
@@ -158,7 +158,7 @@ const CategoriesPage: React.FC<CategoriesPageProps> = ({ isAuthenticated }) => {
               loadingContent={<div>Loading categories...</div>}
             >
               {categories.map((category) => (
-                <TableRow key={category.id}>
+                <TableRow key={category.uuid}>
                   <TableCell>{category.name}</TableCell>
                   <TableCell>{category.postCount || 0}</TableCell>
                   <TableCell>

@@ -57,33 +57,33 @@ public class SecurityConfiguration {
         return userDetailsService;
     }
 
-//    @Bean
-//    public CommandLineRunner loadTagData(TagRepository tagRepository) {
-//        return args -> {
-//            if (tagRepository.count() == 0) {
-//                Tag tag1 = new Tag();
-//                tag1.setName("Darknash");
-//                tagRepository.save(tag1);
-//                Tag tag2 = new Tag();
-//                tag2.setName("Naofumi");
-//                tagRepository.save(tag2);
-//            }
-//        };
-//    }
-//
-//    @Bean
-//    public CommandLineRunner loadCategory(CategoryRepository categoryRepository) {
-//        return args -> {
-//            if (categoryRepository.count() == 0) {
-//                Category category1 = new Category();
-//                category1.setName("Darknash");
-//                categoryRepository.save(category1);
-//                Category category2 = new Category();
-//                category2.setName("Naofumi");
-//                categoryRepository.save(category2);
-//            }
-//        };
-//    }
+    @Bean
+    public CommandLineRunner loadTagData(TagRepository tagRepository) {
+        return args -> {
+            if (tagRepository.count() == 0) {
+                Tag tag1 = new Tag();
+                tag1.setName("Darknash");
+                tagRepository.save(tag1);
+                Tag tag2 = new Tag();
+                tag2.setName("Naofumi");
+                tagRepository.save(tag2);
+            }
+        };
+    }
+
+    @Bean
+    public CommandLineRunner loadCategory(CategoryRepository categoryRepository) {
+        return args -> {
+            if (categoryRepository.count() == 0) {
+                Category category1 = new Category();
+                category1.setName("Darknash");
+                categoryRepository.save(category1);
+                Category category2 = new Category();
+                category2.setName("Naofumi");
+                categoryRepository.save(category2);
+            }
+        };
+    }
 
 
     @Bean
@@ -94,7 +94,7 @@ public class SecurityConfiguration {
         httpSecurity.authorizeHttpRequests(
                 authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/register").anonymous()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/posts/drafts").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
